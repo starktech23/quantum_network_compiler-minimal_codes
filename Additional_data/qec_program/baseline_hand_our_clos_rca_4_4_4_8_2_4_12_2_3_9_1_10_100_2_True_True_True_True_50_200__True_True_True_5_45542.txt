@@ -1,0 +1,10 @@
+{'test_mapper_type': 'baseline', 'test_router_type': 'hand', 'test_scheduler_type': 'our', 'test_program_type': 'rca', 'test_conn_G_type': 'clos', 'rack_num': 4, 'qpu_per_rack': 4, 'qbit_per_qpu': 4, 'commqbit_num': 2, 'cache_reserve_size': 2, 'outer_router_edge_weight': 8, 'rack_router_bsm_num': 4, 'cache_size': 12, 'scheduling_reserve_size': 3, 'schedu_depth': 9, 'inter_time': 1, 'switch_time': 10, 'exter_time': 100, 'split_mul': 2, 'look_ahead': True, 'join_map': True, 'split': True, 'prefix': 'qec_program', 'father_dir': 'rawdata_hand_qec_b12_sch_depth_Thu Feb 20 04:02:09 2025', 'seed': 45542, 'total_test_num': 1, 'repeat_num': 1, 'auto_retry_length': True, 'retry_length': 50, 'shoot_gap': 200, 'check_CAT_sTP': True, 'check_dTP': True, 'qec_program': True, 'code_dist': 5}
+routing_result: cross EPR:180 inter EPR:720
+DAG: cross EPR:180 inter EPR:720
+Scheduling start
+Scheduling time:2.122868776321411
+rack_num 4 qpu_per_rack 4 qbit_per_qpu 4
+time_schedule 3921 cross_pair 180 in_pair 720 post_in_pair 246
+cross_wait_time 5968 in_wait_time 36605
+retry_num 0 total_step 3921
+thruput 0.22953328232593725 avg_wait_time 37.14921465968586 avg_retry_overhead 1.0

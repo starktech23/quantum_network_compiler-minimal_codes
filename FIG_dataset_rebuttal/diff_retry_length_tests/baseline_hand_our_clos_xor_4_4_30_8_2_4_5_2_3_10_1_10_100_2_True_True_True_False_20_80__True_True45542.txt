@@ -1,0 +1,10 @@
+{'test_mapper_type': 'baseline', 'test_router_type': 'hand', 'test_scheduler_type': 'our', 'test_program_type': 'xor', 'test_conn_G_type': 'clos', 'rack_num': 4, 'qpu_per_rack': 4, 'qbit_per_qpu': 30, 'commqbit_num': 2, 'cache_reserve_size': 2, 'outer_router_edge_weight': 8, 'rack_router_bsm_num': 4, 'cache_size': 5, 'scheduling_reserve_size': 3, 'schedu_depth': 10, 'inter_time': 1, 'switch_time': 10, 'exter_time': 100, 'split_mul': 2, 'look_ahead': True, 'join_map': True, 'split': True, 'prefix': 'diff_retry_length_tests', 'father_dir': 'rawdata_hand_all_retry_Sat Feb 15 05:01:24 2025', 'seed': 45542, 'total_test_num': 1, 'user_per_test': 100, 'auto_retry_length': False, 'retry_length': 20, 'shoot_gap': 80, 'check_CAT_sTP': True, 'check_dTP': True}
+routing_result: cross EPR:15 inter EPR:240
+DAG: cross EPR:15 inter EPR:240
+Scheduling start
+Scheduling time:0.24195647239685059
+rack_num 4 qpu_per_rack 4 qbit_per_qpu 30
+time_schedule 736 cross_pair 15 in_pair 240 post_in_pair 9
+cross_wait_time 100 in_wait_time 11910
+retry_num 0 total_step 736
+thruput 0.34646739130434784 avg_wait_time 45.49242424242424 avg_retry_overhead 1.0
