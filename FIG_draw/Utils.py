@@ -432,38 +432,73 @@ def classify_and_sort_averages_optimization_level(averages, eval_key):
                 i1 = a['file_p'][eval_key[0]]
                 i2 = a['file_p'][eval_key[1]]
                 i3 = a['file_p'][eval_key[2]]
-                i4 = a['file_p'][eval_key[4]]
-                if not i1 and not i2 and not i3 and not i4: # none
+
+                #i4 = a['file_p'][eval_key[3]]
+                if not i1 and not i2 and not i3: #and not i4: # none
                     s_refine[0]=a
-                if i1 and not i2 and not i3 and not i4:     # 1 ok
+                if i1 and not i2 and not i3: #and not i4:     # 1 ok
                     s_refine[1] = a
-                if not i1 and i2 and not i3 and not i4:     # 1 ok
+                if not i1 and i2 and not i3: #and not i4:     # 1 ok
                     s_refine[2] = a
-                if not i1 and not i2 and i3 and not i4:     # 1 ok
+                if not i1 and not i2 and i3: #and not i4:     # 1 ok
                     s_refine[3] = a
-                if not i1 and not i2 and not i3 and i4:     # 1 ok
+                #if not i1 and not i2 and not i3 and i4:     # 1 ok
+                #    s_refine[4] = a
+                if i1 and i2 and not i3: #and not i4:         # 2 ok
                     s_refine[4] = a
-                if i1 and i2 and not i3 and not i4:         # 2 ok
+                if i1 and not i2 and i3: #and not i4:         # 2 ok
                     s_refine[5] = a
-                if i1 and not i2 and i3 and not i4:         # 2 ok
+                if not i1 and i2 and i3: #and not i4:         # 2 ok
                     s_refine[6] = a
-                if not i1 and i2 and i3 and not i4:         # 2 ok
+                #if i1 and not i2 and not i3 and i4:         # 2 ok
+                #   s_refine[8] = a
+                #if not i1 and i2 and not i3 and i4:         # 2 ok
+                #    s_refine[9] = a
+                #if not i1 and not i2 and not i3 and i4:         # 2 ok
+                #    s_refine[10] = a
+                #if i1 and i2 and not i3 and i4: # 3 yes
+                #    s_refine[11] = a
+                #if i1 and not i2 and i3 and i4: # 3 yes
+                #    s_refine[12] = a
+                #if not i1 and i2 and i3 and i4:# 3 yes
+                #    s_refine[13] = a
+                if i1 and i2 and i3: #and not i4:# 3 yes
                     s_refine[7] = a
-                if i1 and not i2 and not i3 and i4:         # 2 ok
-                    s_refine[8] = a
-                if not i1 and i2 and not i3 and i4:         # 2 ok
-                    s_refine[9] = a
-                if not i1 and not i2 and not i3 and i4:         # 2 ok
-                    s_refine[10] = a
-                if i1 and i2 and not i3 and i4: # 3 yes
-                    s_refine[11] = a
-                if i1 and not i2 and i3 and i4: # 3 yes
-                    s_refine[12] = a
-                if not i1 and i2 and i3 and i4:# 3 yes
-                    s_refine[13] = a
-                if i1 and i2 and i3 and not i4:# 3 yes
-                    s_refine[14] = a
-                if i1 and i2 and i3 and i4:     # all ok
-                    s_refine[15] = a
+                #if i1 and i2 and i3 and i4:     # all ok
+                #    s_refine[15] = a
+
+                # i4 = a['file_p'][eval_key[4]]
+                # if not i1 and not i2 and not i3 and not i4: # none
+                #     s_refine[0]=a
+                # if i1 and not i2 and not i3 and not i4:     # 1 ok
+                #     s_refine[1] = a
+                # if not i1 and i2 and not i3 and not i4:     # 1 ok
+                #     s_refine[2] = a
+                # if not i1 and not i2 and i3 and not i4:     # 1 ok
+                #     s_refine[3] = a
+                # if not i1 and not i2 and not i3 and i4:     # 1 ok
+                #     s_refine[4] = a
+                # if i1 and i2 and not i3 and not i4:         # 2 ok
+                #     s_refine[5] = a
+                # if i1 and not i2 and i3 and not i4:         # 2 ok
+                #     s_refine[6] = a
+                # if not i1 and i2 and i3 and not i4:         # 2 ok
+                #     s_refine[7] = a
+                # if i1 and not i2 and not i3 and i4:         # 2 ok
+                #     s_refine[8] = a
+                # if not i1 and i2 and not i3 and i4:         # 2 ok
+                #     s_refine[9] = a
+                # if not i1 and not i2 and not i3 and i4:         # 2 ok
+                #     s_refine[10] = a
+                # if i1 and i2 and not i3 and i4: # 3 yes
+                #     s_refine[11] = a
+                # if i1 and not i2 and i3 and i4: # 3 yes
+                #     s_refine[12] = a
+                # if not i1 and i2 and i3 and i4:# 3 yes
+                #     s_refine[13] = a
+                # if i1 and i2 and i3 and not i4:# 3 yes
+                #     s_refine[14] = a
+                # if i1 and i2 and i3 and i4:     # all ok
+                #     s_refine[15] = a
         sorted_classified_averages[program_type] = s_refine
     return sorted_classified_averages
