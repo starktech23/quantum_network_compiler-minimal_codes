@@ -400,17 +400,19 @@ def compute_dictionaries(data_path, eval, benchmark):
     return diction_our, diction_baseline
 
 
-def extract_data(diction, baseline=False):
+def extract_data(diction,baseline=False):
     mct_data = [diction[0][0][0], diction[1][0][0], diction[2][0][12]]
     qft_data = [diction[0][1][0], diction[1][1][0], diction[2][1][9]]
     grover_data = [diction[0][2][0], diction[1][2][0], diction[2][2][13]]
     rca_data = [diction[0][3][0], diction[1][3][0], diction[2][3][9]]
+    qaoa_data = [diction[0][4][0], diction[1][4][0], diction[2][4][9]]  #qaoa
     if baseline == True:
         mct_data = [diction[0][0][0], diction[1][0][0], 0]
         qft_data = [diction[0][1][0], diction[1][1][0], 0]
         grover_data = [diction[0][2][0], diction[1][2][0], 0]
         rca_data = [diction[0][3][0], diction[1][3][0], 0]
-    return mct_data, qft_data, grover_data, rca_data
+        qaoa_data = [diction[0][4][0], diction[1][4][0], 0]             #qaoa
+    return mct_data, qft_data, grover_data, rca_data, qaoa_data         #qaoa
 
 
 def classify_and_sort_averages_optimization_level(averages, eval_key):
@@ -430,21 +432,38 @@ def classify_and_sort_averages_optimization_level(averages, eval_key):
                 i1 = a['file_p'][eval_key[0]]
                 i2 = a['file_p'][eval_key[1]]
                 i3 = a['file_p'][eval_key[2]]
-                if not i1 and not i2 and not i3:
-                    s_refine[0] = a
-                if i1 and not i2 and not i3:
+                i4 = a['file_p'][eval_key[4]]
+                if not i1 and not i2 and not i3 and not i4: # none
+                    s_refine[0]=a
+                if i1 and not i2 and not i3 and not i4:     # 1 ok
                     s_refine[1] = a
-                if not i1 and i2 and not i3:
+                if not i1 and i2 and not i3 and not i4:     # 1 ok
                     s_refine[2] = a
-                if not i1 and not i2 and i3:
+                if not i1 and not i2 and i3 and not i4:     # 1 ok
                     s_refine[3] = a
-                if i1 and i2 and not i3:
+                if not i1 and not i2 and not i3 and i4:     # 1 ok
                     s_refine[4] = a
-                if i1 and not i2 and i3:
+                if i1 and i2 and not i3 and not i4:         # 2 ok
                     s_refine[5] = a
-                if not i1 and i2 and i3:
+                if i1 and not i2 and i3 and not i4:         # 2 ok
                     s_refine[6] = a
-                if i1 and i2 and i3:
+                if not i1 and i2 and i3 and not i4:         # 2 ok
                     s_refine[7] = a
+                if i1 and not i2 and not i3 and i4:         # 2 ok
+                    s_refine[8] = a
+                if not i1 and i2 and not i3 and i4:         # 2 ok
+                    s_refine[9] = a
+                if not i1 and not i2 and not i3 and i4:         # 2 ok
+                    s_refine[10] = a
+                if i1 and i2 and not i3 and i4: # 3 yes
+                    s_refine[11] = a
+                if i1 and not i2 and i3 and i4: # 3 yes
+                    s_refine[12] = a
+                if not i1 and i2 and i3 and i4:# 3 yes
+                    s_refine[13] = a
+                if i1 and i2 and i3 and not i4:# 3 yes
+                    s_refine[14] = a
+                if i1 and i2 and i3 and i4:     # all ok
+                    s_refine[15] = a
         sorted_classified_averages[program_type] = s_refine
     return sorted_classified_averages
