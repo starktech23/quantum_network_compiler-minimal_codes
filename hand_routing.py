@@ -1,6 +1,6 @@
 from copy import deepcopy
 import random
-from circuit import create_qft_circuit,create_rca_circuit,create_grover_circuit,create_xor_circuit, create_qaoa_circuit
+from circuit import create_qft_circuit,create_rca_circuit,create_grover_circuit,create_xor_circuit#, create_qaoa_circuit
 def gen_qft_routing_result(rack_num,qpu_per_rack,qbit_per_qpu):
     qpu_num=rack_num*qpu_per_rack
     routing_result=[]
@@ -10,21 +10,175 @@ def gen_qft_routing_result(rack_num,qpu_per_rack,qbit_per_qpu):
                 routing_result.append([tp_start,tp_start+1,'T'])
             routing_result.append([qpu_num-1,loop_start,'T'])
     return routing_result
-def gen_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu):
-    qpu_num=rack_num*qpu_per_rack
-    temp_routing_result=[]
-    routing_result=[]
-    for loop_start in range(0,qpu_num-1):
-        temp_result=[]
-        for _ in range(qbit_per_qpu):
-            for tp_start in range(loop_start,qpu_num-1):
-                temp_result.append([tp_start,tp_start+1,'T'])
-            temp_result.append([qpu_num-1,loop_start,'T'])
-        temp_routing_result.append(temp_result)
-    random.shuffle(temp_routing_result)
-    for result in temp_routing_result:
-        routing_result+=result
+# def gen_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu):
+#    qpu_num=rack_num*qpu_per_rack
+#    temp_routing_result=[]
+#    routing_result=[]
+#    for loop_start in range(0,qpu_num-1):
+#        temp_result=[]
+#        for _ in range(qbit_per_qpu):
+#            for tp_start in range(loop_start,qpu_num-1):
+#                temp_result.append([tp_start,tp_start+1,'T'])
+#             temp_result.append([qpu_num-1,loop_start,'T'])
+#         temp_routing_result.append(temp_result)
+#     random.shuffle(temp_routing_result)
+#     for result in temp_routing_result:
+#         routing_result+=result
+#     return routing_result
+
+from copy import deepcopy
+
+def gen_qaoa_routing_result(rack_num, qpu_per_rack, qbit_per_qpu, edges):
+    """
+    Generates the inter-QPU routing schedule for a QAOA algorithm.
+
+    The function identifies the required connections between QPUs to execute the
+    two-qubit CX gates defined by the problem graph's edges.
+
+    Args:
+        rack_num (int): The number of racks in the quantum hardware.
+        qpu_per_rack (int): The number of QPUs per rack.
+        qbit_per_qpu (int): The number of qubits per QPU.
+        edges (list of tuples): A list of tuples, where each tuple (u, v)
+                                represents an edge in the problem graph,
+                                corresponding to a CX(u,v)-Rz(v)-CX(u,v) operation.
+        p (int): The number of QAOA layers (or rounds). Defaults to 1.
+
+    Returns:
+        list: A list of required connections, where each connection is formatted as
+              [source_qpu, target_qpu, 'CX']. The list is repeated for p rounds.
+    """
+    # Calculate the total number of QPUs and qubits in the system
+    qpu_num = rack_num * qpu_per_rack
+    qbit_num = qpu_num * qbit_per_qpu
+
+    # --- Build the routing plan for a SINGLE QAOA layer ---
+    # This list will hold the required connections for one application of the
+    # Problem Unitary (U_C). The Mixer Unitary only uses single-qubit gates
+    # and thus requires no inter-QPU routing.
+    one_layer_connections = []
+
+
+
+    # Iterate over every edge in the problem graph
+    for u, v in edges:
+        # Check if qubits u and v are within the total number of available qubits
+        if u >= qbit_num or v >= qbit_num:
+            print(f"Warning: Edge ({u}, {v}) is out of bounds for the {qbit_num} available qubits. Skipping.")
+            continue
+
+        # Determine the QPU for each qubit in the edge using integer division
+        qpu_u = u // qbit_per_qpu
+        qpu_v = v // qbit_per_qpu
+
+        # CORE ROUTING LOGIC:
+        # Only record a connection if the two qubits are on DIFFERENT QPUs.
+        if qpu_u != qpu_v:
+            # The edge (u, v) corresponds to a CX(u, v) -> Rz(v) -> CX(u, v) sequence.
+            # The Rz gate is local and requires no routing.
+            # Both CX gates require the same remote connection between qpu_u and qpu_v.
+
+            # Schedule the connection for the first CX gate
+            one_layer_connections.append([qpu_u, qpu_v, 'CX'])
+
+            # Schedule the connection for the second CX gate
+            one_layer_connections.append([qpu_u, qpu_v, 'CX'])
+
+    # --- Assemble the full routing plan by repeating the layer p times ---
+    routing_result = []
+    # for _ in range(p=1):
+        # Use deepcopy to ensure each layer is a distinct object in the list
+    routing_result += deepcopy(one_layer_connections)
+
     return routing_result
+
+
+import random
+
+
+def generate_all_to_all_graph(num_qubits):
+    """
+    Generates the edge list for a complete (all-to-all) graph.
+    Every qubit is connected to every other qubit.
+
+    Args:
+        num_qubits (int): The total number of qubits (nodes) in the graph.
+
+    Returns:
+        list: A list of tuples representing the graph edges.
+    """
+    edges = []
+    if num_qubits < 2:
+        return []
+    # Iterate through all unique pairs of qubits
+    for i in range(num_qubits):
+        for j in range(i + 1, num_qubits):
+            edges.append((i, j))
+    return edges
+
+
+def generate_regular_graph(num_qubits, degree):
+    """
+    Generates the edge list for a k-regular graph where each node has a
+    fixed degree. This uses the "pairing model".
+    Note: May not succeed for all combinations of num_qubits and degree.
+
+    Args:
+        num_qubits (int): The total number of qubits (nodes).
+        degree (int): The desired degree for each node (e.g., 3 for 3-regular).
+
+    Returns:
+        list: A list of tuples representing the graph edges.
+    """
+    if (num_qubits * degree) % 2 != 0:
+        raise ValueError("For a regular graph, the product of num_qubits and degree must be even.")
+
+    # Create a list of 'stubs' for each node
+    stubs = [node for node in range(num_qubits) for _ in range(degree)]
+    random.shuffle(stubs)
+
+    edges = set()  # Use a set to automatically handle multi-edges
+
+    # Pair up stubs to create edges
+    while stubs:
+        u = stubs.pop()
+        v = stubs.pop()
+
+        # Avoid self-loops (a node connecting to itself)
+        if u != v:
+            # Add the edge in a canonical order (min, max) to prevent duplicates like (1,0) and (0,1)
+            edge = tuple(sorted((u, v)))
+            edges.add(edge)
+
+    return list(edges)
+
+
+def generate_random_graph(num_qubits, edge_probability):
+    """
+    Generates the edge list for a random G(n, p) graph.
+    An edge is created between any two nodes with a given probability.
+
+    Args:
+        num_qubits (int): The total number of qubits (nodes), n.
+        edge_probability (float): The probability of an edge existing, p. Must be between 0.0 and 1.0.
+
+    Returns:
+        list: A list of tuples representing the graph edges.
+    """
+    if not (0 <= edge_probability <= 1):
+        raise ValueError("Edge probability must be between 0 and 1.")
+
+    edges = []
+    if num_qubits < 2:
+        return []
+    # Consider every possible edge
+    for i in range(num_qubits):
+        for j in range(i + 1, num_qubits):
+            # Add the edge if a random roll succeeds
+            if random.random() < edge_probability:
+                edges.append((i, j))
+    return edges
+
 def gen_grover_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,repeat_num=50):
     qpu_num=rack_num*qpu_per_rack
     qbit_num=qpu_num*qbit_per_qpu
@@ -156,9 +310,9 @@ def gen_qec_xor_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist,repe
     circ=create_xor_circuit(nqubit=qbit_num)
     return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
                             code_dist=code_dist,repeat_num=repeat_num)
-def gen_qec_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist, p, gamma, beta, G, repeat_num=1):
-    qpu_num=rack_num*qpu_per_rack
-    qbit_num=qpu_num*qbit_per_qpu
-    circ=create_qaoa_circuit(qbit_num, p, gamma, beta, G)
-    return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
-                            code_dist=code_dist,repeat_num=repeat_num)
+# def gen_qec_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist, p, gamma, beta, G, repeat_num=1):
+#     qpu_num=rack_num*qpu_per_rack
+#     qbit_num=qpu_num*qbit_per_qpu
+#     circ=create_qaoa_circuit(qbit_num, p, gamma, beta, G)
+#     return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
+#                             code_dist=code_dist,repeat_num=repeat_num)

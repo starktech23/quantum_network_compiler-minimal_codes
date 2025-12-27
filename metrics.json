@@ -1,0 +1,13 @@
+{
+  "time_schedule": 17445,
+  "cross_pair": 1080,
+  "inter_pair": 2970,
+  "distill_pair": 1042,
+  "cross_EPR_cache_time": 23985,
+  "inter_EPR_cache_time": 313038,
+  "retry_num": 0,
+  "total_step": 17445,
+  "throughput": 0.23215821152192606,
+  "avg_wait_time": 83.21555555555555,
+  "schedule_length": 6134
+}

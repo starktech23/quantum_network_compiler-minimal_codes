@@ -102,40 +102,31 @@ import numpy as np
 
 
 
-
-def create_qaoa_circuit(nqubit, p, gamma, beta, G):
-    qc = []
-
-    # Apply Hadamard gate to all qubits to create superposition
-    for i in range(nqubit):
-        qc.append(['H', i])  # Hadamard gate on qubit looped over "i"
-
-    # Apply QAOA operations for p layers
-    for layer in range(p):
-        # Phase operator (Problem Hamiltonian)
-        # for i in range(nqubit):
-        for edge in G.edges():
-            log_angle = gamma[layer]  # gamma is the parameter for the phase rotation
-            # graph_edges = list(G.edges())
-            qc.append(['CX', edge[0], edge[1]])
-            qc.append(['RZ', edge[1], log_angle])
-            qc.append(['CX', edge[0], edge[1]])
-
-        # Mixing operator (Mixing Hamiltonian) with RX gates
-        for i in range(nqubit):
-            qc.append(['RX', i, 2 * beta[layer]])  # Rotate qubit by 2*beta angle
-
-    return qc
-
-nqubit = 4
-
-p = 2
-gamma = np.random.uniform(0, 2 * np.pi, p)
-beta = np.random.uniform(0, 2 * np.pi, p)
-
-G = nx.random_regular_graph(3, nqubit)
-for u, v in G.edges():
-    G[u][v]['weight'] = random.uniform(0.1, 1.0)
+# v1 bad circuit
+# def create_qaoa_circuit(nqubit, p, gamma, beta, G):
+#     qc = []
+#
+#     # Apply Hadamard gate to all qubits to create superposition
+#     for i in range(nqubit):
+#         qc.append(['H', i])  # Hadamard gate on qubit looped over "i"
+#
+#     # Apply QAOA operations for p layers
+#     for layer in range(p):
+#         # Phase operator (Problem Hamiltonian)
+#         # for i in range(nqubit):
+#         for edge in G.edges():
+#             log_angle = gamma[layer]  # gamma is the parameter for the phase rotation
+#             # graph_edges = list(G.edges())
+#             qc.append(['CX', edge[0], edge[1]])
+#             qc.append(['RZ', edge[1], log_angle])
+#             qc.append(['CX', edge[0], edge[1]])
+#
+#         # Mixing operator (Mixing Hamiltonian) with RX gates
+#         for i in range(nqubit):
+#             qc.append(['RX', i, 2 * beta[layer]])  # Rotate qubit by 2*beta angle
+#
+#     return qc
 
 
-qaoa_circuit = create_qaoa_circuit(nqubit, p, gamma, beta, G)
+# add test functions that print out debug message/prompt
+

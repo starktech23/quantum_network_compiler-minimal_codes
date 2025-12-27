@@ -2,45 +2,12 @@
 routing_result: cross EPR:1080 inter EPR:2970
 DAG: cross EPR:1080 inter EPR:2970
 Scheduling start
-test Error!,time:2.6940159797668457
-Traceback (most recent call last):
-  File "/Users/sam/Downloads/quantum_network_compiler-minimal_codes/run_hand_routing_one.py", line 129, in run_one
-    s.run(look_ahead=look_ahead,join_map=join_map,split=split,ahead_split=True)
-  File "/Users/sam/Downloads/quantum_network_compiler-minimal_codes/Scheduling_v1_1.py", line 786, in run
-    self.step()
-  File "/Users/sam/Downloads/quantum_network_compiler-minimal_codes/Scheduling_v1_1.py", line 715, in step
-    self.snapshoots.append(Scheduler_snapshoot(scheduler=self))
-  File "/Users/sam/Downloads/quantum_network_compiler-minimal_codes/Scheduling_v1_1.py", line 500, in __init__
-    self.cacheDAG       =deepcopy(scheduler.cacheDAG)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 172, in deepcopy
-    y = _reconstruct(x, memo, *rv)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 270, in _reconstruct
-    state = deepcopy(state, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 146, in deepcopy
-    y = copier(x, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 230, in _deepcopy_dict
-    y[deepcopy(key, memo)] = deepcopy(value, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 172, in deepcopy
-    y = _reconstruct(x, memo, *rv)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 270, in _reconstruct
-    state = deepcopy(state, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 146, in deepcopy
-    y = copier(x, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 230, in _deepcopy_dict
-    y[deepcopy(key, memo)] = deepcopy(value, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 146, in deepcopy
-    y = copier(x, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 230, in _deepcopy_dict
-    y[deepcopy(key, memo)] = deepcopy(value, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 146, in deepcopy
-    y = copier(x, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 230, in _deepcopy_dict
-    y[deepcopy(key, memo)] = deepcopy(value, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 146, in deepcopy
-    y = copier(x, memo)
-  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/copy.py", line 205, in _deepcopy_list
-    append(deepcopy(a, memo))
-KeyboardInterrupt
+Scheduling time:31.422550678253174
+rack_num 4 qpu_per_rack 4 qbit_per_qpu 30
+time_schedule 16693 cross_pair 1080 in_pair 2970 post_in_pair 1133
+cross_wait_time 30387 in_wait_time 325799
+retry_num 0 total_step 16693
+thruput 0.24261666566824416 avg_wait_time 68.72197568975497 avg_retry_overhead 1.0
 
 METRICS_JSON:
-{"time_schedule": null, "cross_pair": null, "in_pair": null, "post_in_pair": null, "cross_wait_time": null, "in_wait_time": null, "retry_num": null, "total_step": null, "throughput": null, "cross_EPR_cache_time": null, "inter_EPR_cache_time": null, "distill_pair": null, "schedule_result_list_len": null}
+{"time_schedule": 16693, "cross_pair": 1080, "in_pair": 2970, "post_in_pair": 1133, "cross_wait_time": 30387, "in_wait_time": 325799, "retry_num": 0, "total_step": 16693, "throughput": 0.24261666566824416, "cross_EPR_cache_time": null, "inter_EPR_cache_time": null, "distill_pair": null, "schedule_result_list_len": 6316}

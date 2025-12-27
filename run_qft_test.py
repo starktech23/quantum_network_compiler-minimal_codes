@@ -9,7 +9,7 @@ def default_kwargs():
         'test_mapper_type': 'baseline',
         'test_router_type': 'hand',
         'test_scheduler_type': 'our',        # or 'baseline_no_ahead'
-        'test_program_type': 'qft',
+        'test_program_type': 'qaoa',
         'test_conn_G_type': 'clos',          # 'fat_tree_L2' or 'fat_tree_L3'
         'rack_num': 4,
         'qpu_per_rack': 4,
@@ -28,8 +28,8 @@ def default_kwargs():
         'look_ahead': True,
         'join_map': True,
         'split': True,
-        'prefix': 'QFT_single_run',
-        'father_dir': './results_qft',
+        'prefix': 'QAOA_single_run',
+        'father_dir': './results_qaoa',
         'repeat_num': 1,
         'auto_retry_length': True,
         'retry_length': 50,
@@ -44,7 +44,7 @@ def default_kwargs():
 if __name__ == '__main__':
     kw = default_kwargs()
     os.makedirs(os.path.join(kw['father_dir'], kw['prefix']), exist_ok=True)
-    print("Running QFT using run_one() — writing logs to:", os.path.join(kw['father_dir'], kw['prefix']))
+    print("Running QAOA using run_one() — writing logs to:", os.path.join(kw['father_dir'], kw['prefix']))
     metrics = run_one(deepcopy(kw))
     print("Run finished. Metrics:")
     print(json.dumps(metrics, indent=2))

@@ -11,6 +11,10 @@ import hand_routing
 import os
 import traceback
 from math import sqrt
+
+from hand_routing import generate_regular_graph
+
+
 # qbit, qpu, and rack IDs start from 0
 def run_one(kwargs):
     seed=kwargs['seed']
@@ -86,7 +90,9 @@ def run_one(kwargs):
         if(test_program_type=="qft"):
             routing_result=hand_routing.gen_qec_qft_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,code_dist=code_dist)
         elif(test_program_type=="qaoa"):
-            routing_result=hand_routing.gen_qec_qaoa_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,code_dist=code_dist)
+            routing_result=hand_routing.gen_qec_qaoa_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,
+                                                                    edges=edges,
+                                                                    code_dist=code_dist)
         elif(test_program_type=="rca"):
             routing_result=hand_routing.gen_qec_rca_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,code_dist=code_dist,repeat_num=repeat_num)
         elif(test_program_type=="grover"):
@@ -99,7 +105,11 @@ def run_one(kwargs):
         if(test_program_type=="qft"):
             routing_result=hand_routing.gen_qft_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu)
         elif(test_program_type=="qaoa"):
-            routing_result=hand_routing.gen_qaoa_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu)
+            qpu_num = rack_num * qpu_per_rack
+            total_qubits = qpu_num * qbit_per_qpu
+            edges=generate_regular_graph(total_qubits, 3)
+            routing_result=hand_routing.gen_qaoa_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,
+                                                                edges=edges)
         elif(test_program_type=="rca"):
             routing_result=hand_routing.gen_rca_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,repeat_num=repeat_num)
         elif(test_program_type=="grover"):
