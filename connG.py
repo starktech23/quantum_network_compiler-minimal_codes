@@ -16,13 +16,13 @@ def create_fat_tree(edge_weight,node_weight):
 def gen_clos_conn(n,node_weight,edge_weight):
     n=int(n)
     bandwidth = edge_weight
-    num_ToR = 3 # number of qpus per rack
+    num_ToR = 3 # number of qpus per rack                       #unused
     num_core = n // 2
     num_agg = n
     num_edge = n**2 // 4
-    num_nodes = num_edge * num_ToR # number of q nodes
+    num_nodes = num_edge * num_ToR # number of q nodes          #unused
 
-    num_vertices = num_core + num_agg + num_edge + num_nodes
+    num_vertices = num_core + num_agg + num_edge + num_nodes    #unused
     core_bw = 4*bandwidth
     agg_bw = 2*bandwidth
     edge_bw = bandwidth

@@ -100,33 +100,3 @@ def create_xor_circuit(nqubit):
 import networkx as nx
 import numpy as np
 
-
-
-# v1 bad circuit
-# def create_qaoa_circuit(nqubit, p, gamma, beta, G):
-#     qc = []
-#
-#     # Apply Hadamard gate to all qubits to create superposition
-#     for i in range(nqubit):
-#         qc.append(['H', i])  # Hadamard gate on qubit looped over "i"
-#
-#     # Apply QAOA operations for p layers
-#     for layer in range(p):
-#         # Phase operator (Problem Hamiltonian)
-#         # for i in range(nqubit):
-#         for edge in G.edges():
-#             log_angle = gamma[layer]  # gamma is the parameter for the phase rotation
-#             # graph_edges = list(G.edges())
-#             qc.append(['CX', edge[0], edge[1]])
-#             qc.append(['RZ', edge[1], log_angle])
-#             qc.append(['CX', edge[0], edge[1]])
-#
-#         # Mixing operator (Mixing Hamiltonian) with RX gates
-#         for i in range(nqubit):
-#             qc.append(['RX', i, 2 * beta[layer]])  # Rotate qubit by 2*beta angle
-#
-#     return qc
-
-
-# add test functions that print out debug message/prompt
-
