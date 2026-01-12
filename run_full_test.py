@@ -47,7 +47,7 @@ if __name__=='__main__':
     kwargs['check_CAT_sTP']=True
     kwargs['check_dTP']=True
     kwargs['check_split_num']=True
-    kwargs['qec_program']=False
+    kwargs['qec_program']=True
     kwargs['code_dist']=5
     default_kwargs=deepcopy(kwargs)
 
@@ -60,86 +60,56 @@ if __name__=='__main__':
                 #    continue
                 default_kwargs['test_program_type']=test_program_type
                 kwargs=deepcopy(default_kwargs)
-                
+
                 kwargs['prefix']='circuit_size'
-                for qbit_per_qpu,cache_size,scheduling_reserve_size in [(30,10,3),(38,12,3),(45,15,4)]:
-                   kwargs['qbit_per_qpu']=qbit_per_qpu
-                   kwargs['cache_size']=cache_size
-                   kwargs['scheduling_reserve_size']=scheduling_reserve_size
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
-
-                kwargs['prefix']='qpu_per_rack'
-                for qpu_per_rack in range(2,7):
-                   kwargs['qpu_per_rack']=qpu_per_rack
-                   kwargs['outer_router_edge_weight']=int(qpu_per_rack*kwargs['commqbit_num'])
-                   kwargs['rack_router_bsm_num']=int(qpu_per_rack*kwargs['commqbit_num']/2)
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
-
-                kwargs['prefix']='rack_num'
-                kwargs['qpu_per_rack']=3
-                kwargs['qbit_per_qpu']=20
-                kwargs['cache_size']=7
-                for rack_num in [4,9,16]:
-                   kwargs['rack_num']=rack_num
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
-# uncommented
-                kwargs['prefix']='test_conn_G_type'
-                kwargs['outer_router_edge_weight']=1
-                for test_conn_G_type,rack_num in [('clos',4),('fat_tree_L2',8),('fat_tree_L3',6)]:
-                   kwargs['test_conn_G_type']=test_conn_G_type
-                   kwargs['rack_num']=rack_num
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
-#
-                #kwargs['prefix']='qec_program'
-                #kwargs['qec_program']=True
-                #kwargs['code_dist']=5
-                #kwargs['rack_num']=4
-                #kwargs['qpu_per_rack']=4
-                #kwargs['qbit_per_qpu']=4
-                #kwargs['commqbit_num']=2
-                #kwargs['cache_reserve_size']=2 # default=commqbit_num
-                #kwargs['outer_router_edge_weight']=8 # qpu_per_rack*commqbit_num
-                #kwargs['rack_router_bsm_num']=4  # qpu_per_rack*commqbit_num/2
-                #kwargs['cache_size']=12
-                #kwargs['repeat_num']=1
-                #for schedu_depth in range(1,21):
-                #    if(schedu_depth!=1 and test_scheduler_type!='our'):
-                #        continue
-                #    kwargs['schedu_depth']=schedu_depth
+                # for qbit_per_qpu,cache_size,scheduling_reserve_size in [(30,10,3),(38,12,3),(45,15,4)]:
+                #    kwargs['qbit_per_qpu']=qbit_per_qpu
+                #    kwargs['cache_size']=cache_size
+                #    kwargs['scheduling_reserve_size']=scheduling_reserve_size
                 #    print(kwargs)
                 #    p.apply_async(run_one, args=(deepcopy(kwargs),))
-                #kwargs=deepcopy(default_kwargs)
+                # kwargs=deepcopy(default_kwargs)
+                #
+                # kwargs['prefix']='qpu_per_rack'
+                # for qpu_per_rack in range(2,7):
+                #    kwargs['qpu_per_rack']=qpu_per_rack
+                #    kwargs['outer_router_edge_weight']=int(qpu_per_rack*kwargs['commqbit_num'])
+                #    kwargs['rack_router_bsm_num']=int(qpu_per_rack*kwargs['commqbit_num']/2)
+                #    print(kwargs)
+                #    p.apply_async(run_one, args=(deepcopy(kwargs),))
+                # kwargs=deepcopy(default_kwargs)
+                #
+                # kwargs['prefix']='rack_num'
+                # kwargs['qpu_per_rack']=3
+                # kwargs['qbit_per_qpu']=20
+                # kwargs['cache_size']=7
+                # for rack_num in [4,9,16]:
+                #    kwargs['rack_num']=rack_num
+                #    print(kwargs)
+                #    p.apply_async(run_one, args=(deepcopy(kwargs),))
+                # kwargs=deepcopy(default_kwargs)
 # uncommented
-                kwargs['prefix']='cross_in_rack_ratio'
-                kwargs['qbit_per_qpu']=45
-                kwargs['cache_size']=15
-                kwargs['scheduling_reserve_size']=4
-                #if('baseline' in test_scheduler_type):
-                for exter_time,switch_time in [(100,10),(0,10),(0,0)]:
-                   kwargs['exter_time']=exter_time
-                   kwargs['switch_time']=switch_time
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
-# uncommented
-                kwargs['prefix']='cache_size'
-                for scheduling_reserve_size,cache_size in enumerate(list(range(3,26,1))+list(range(30,65,5))):
-                   kwargs['cache_size']=cache_size
-                   kwargs['scheduling_reserve_size']=scheduling_reserve_size
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
-# uncommented
-                kwargs['prefix']='schedu_depth_test'
-                #if(test_scheduler_type=='our'):
+#                 kwargs['prefix']='test_conn_G_type'
+#                 kwargs['outer_router_edge_weight']=1
+#                 for test_conn_G_type,rack_num in [('clos',4),('fat_tree_L2',8),('fat_tree_L3',6)]:
+#                    kwargs['test_conn_G_type']=test_conn_G_type
+#                    kwargs['rack_num']=rack_num
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
+#
+                kwargs['prefix']='qec_program'
+                kwargs['qec_program']=True
+                kwargs['code_dist']=5
+                kwargs['rack_num']=4
+                kwargs['qpu_per_rack']=4
+                kwargs['qbit_per_qpu']=4
+                kwargs['commqbit_num']=2
+                kwargs['cache_reserve_size']=2 # default=commqbit_num
+                kwargs['outer_router_edge_weight']=8 # qpu_per_rack*commqbit_num
+                kwargs['rack_router_bsm_num']=4  # qpu_per_rack*commqbit_num/2
+                kwargs['cache_size']=12
+                kwargs['repeat_num']=1
                 for schedu_depth in range(1,21):
                    if(schedu_depth!=1 and test_scheduler_type!='our'):
                        continue
@@ -148,56 +118,86 @@ if __name__=='__main__':
                    p.apply_async(run_one, args=(deepcopy(kwargs),))
                 kwargs=deepcopy(default_kwargs)
 # uncommented
-                kwargs['prefix']='commqbit_num'
-                for commqbit_num in range(1,7):
-                   kwargs['commqbit_num']=commqbit_num
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
+#                 kwargs['prefix']='cross_in_rack_ratio'
+#                 kwargs['qbit_per_qpu']=45
+#                 kwargs['cache_size']=15
+#                 kwargs['scheduling_reserve_size']=4
+#                 #if('baseline' in test_scheduler_type):
+#                 for exter_time,switch_time in [(100,10),(0,10),(0,0)]:
+#                    kwargs['exter_time']=exter_time
+#                    kwargs['switch_time']=switch_time
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
 # uncommented
-                kwargs['prefix']='inter_time'
-                for inter_time in [1,2,4,5,6,8,10,20,40,60,80,100]:
-                   kwargs['inter_time']=inter_time
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs['inter_time']=10
+#                 kwargs['prefix']='cache_size'
+#                 for scheduling_reserve_size,cache_size in enumerate(list(range(3,26,1))+list(range(30,65,5))):
+#                    kwargs['cache_size']=cache_size
+#                    kwargs['scheduling_reserve_size']=scheduling_reserve_size
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
+# uncommented
+#                 kwargs['prefix']='schedu_depth_test'
+#                 #if(test_scheduler_type=='our'):
+#                 for schedu_depth in range(1,21):
+#                    if(schedu_depth!=1 and test_scheduler_type!='our'):
+#                        continue
+#                    kwargs['schedu_depth']=schedu_depth
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
+# uncommented
+#                 kwargs['prefix']='commqbit_num'
+#                 for commqbit_num in range(1,7):
+#                    kwargs['commqbit_num']=commqbit_num
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
+# uncommented
+#                 kwargs['prefix']='inter_time'
+#                 for inter_time in [1,2,4,5,6,8,10,20,40,60,80,100]:
+#                    kwargs['inter_time']=inter_time
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs['inter_time']=10
 # uncommented
                 # 5 10 15 20
-                kwargs['prefix']='exter_time'
-                for exter_time in [100,200,500,1000,1500,2000,2500,3000,3500,4000,4500,5000]:
-                   kwargs['exter_time']=exter_time
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
+                # kwargs['prefix']='exter_time'
+                # for exter_time in [100,200,500,1000,1500,2000,2500,3000,3500,4000,4500,5000]:
+                #    kwargs['exter_time']=exter_time
+                #    print(kwargs)
+                #    p.apply_async(run_one, args=(deepcopy(kwargs),))
+                # kwargs=deepcopy(default_kwargs)
 # uncommented
-                kwargs['prefix']='split_mul'
-                for split_mul in range(1,31):
-                   if(test_scheduler_type!='our' and split_mul!=1):
-                       continue
-                   kwargs['split_mul']=split_mul
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
+#                 kwargs['prefix']='split_mul'
+#                 for split_mul in range(1,31):
+#                    if(test_scheduler_type!='our' and split_mul!=1):
+#                        continue
+#                    kwargs['split_mul']=split_mul
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
 # uncommented
-                kwargs['prefix']='opt_test'
-                for look_ahead,join_map,split in [(False,False,False),(True,False,False),(False,True,False),
-                                                  (False,False,True),(False,True,True),(True,False,True),
-                                                  (True,True,False),(True,True,True)]:
-                    if(test_scheduler_type!='our' and (look_ahead,join_map,split)!=(False,False,False)):
-                        continue
-                    kwargs['look_ahead']=look_ahead
-                    kwargs['join_map']=join_map
-                    kwargs['split']=split
-                    print(kwargs)
-                    p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
+#                 kwargs['prefix']='opt_test'
+#                 for look_ahead,join_map,split in [(False,False,False),(True,False,False),(False,True,False),
+#                                                   (False,False,True),(False,True,True),(True,False,True),
+#                                                   (True,True,False),(True,True,True)]:
+#                     if(test_scheduler_type!='our' and (look_ahead,join_map,split)!=(False,False,False)):
+#                         continue
+#                     kwargs['look_ahead']=look_ahead
+#                     kwargs['join_map']=join_map
+#                     kwargs['split']=split
+#                     print(kwargs)
+#                     p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
 # uncommented
-                kwargs['prefix']='rack_router_bsm_num'
-                for rack_router_bsm_num in range(2,11):
-                   kwargs['rack_router_bsm_num']=rack_router_bsm_num
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
+#                 kwargs['prefix']='rack_router_bsm_num'
+#                 for rack_router_bsm_num in range(2,11):
+#                    kwargs['rack_router_bsm_num']=rack_router_bsm_num
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
 #
 #                 kwargs['prefix']='outer_router_edge_weight'
 #                 for outer_router_edge_weight in [1,2,4,8,16]:
@@ -209,13 +209,13 @@ if __name__=='__main__':
 #                 kwargs['switch_time']=100 # Minimum time unit 0.01ms
 #                 kwargs['exter_time']=1000
 # uncommented
-                kwargs['prefix']='cache_reserve_test'
-                #if(test_scheduler_type=='our'):
-                for cache_reserve_size in range(1,10):
-                   kwargs['cache_reserve_size']=cache_reserve_size
-                   print(kwargs)
-                   p.apply_async(run_one, args=(deepcopy(kwargs),))
-                kwargs=deepcopy(default_kwargs)
+#                 kwargs['prefix']='cache_reserve_test'
+#                 #if(test_scheduler_type=='our'):
+#                 for cache_reserve_size in range(1,10):
+#                    kwargs['cache_reserve_size']=cache_reserve_size
+#                    print(kwargs)
+#                    p.apply_async(run_one, args=(deepcopy(kwargs),))
+#                 kwargs=deepcopy(default_kwargs)
 #
                 #kwargs['prefix']='diff_retry_length_tests'
                 #kwargs['cache_size']=5

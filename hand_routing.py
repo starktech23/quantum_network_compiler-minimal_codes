@@ -1,6 +1,7 @@
 from copy import deepcopy
 import random
-from circuit import create_qft_circuit,create_rca_circuit,create_grover_circuit,create_xor_circuit#, create_qaoa_circuit
+from circuit import create_qft_circuit,create_rca_circuit,create_grover_circuit,create_xor_circuit, create_qaoa_circuit
+
 def gen_qft_routing_result(rack_num,qpu_per_rack,qbit_per_qpu):
     qpu_num=rack_num*qpu_per_rack
     routing_result=[]
@@ -310,9 +311,11 @@ def gen_qec_xor_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist,repe
     circ=create_xor_circuit(nqubit=qbit_num)
     return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
                             code_dist=code_dist,repeat_num=repeat_num)
-# def gen_qec_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist, p, gamma, beta, G, repeat_num=1):
-#     qpu_num=rack_num*qpu_per_rack
-#     qbit_num=qpu_num*qbit_per_qpu
-#     circ=create_qaoa_circuit(qbit_num, p, gamma, beta, G)
-#     return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
-#                             code_dist=code_dist,repeat_num=repeat_num)
+
+def gen_qec_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist, p=1, repeat_num=1):
+    qpu_num=rack_num*qpu_per_rack
+    qbit_num=qpu_num*qbit_per_qpu
+    G = generate_regular_graph(qbit_num, 3)
+    circ=create_qaoa_circuit(qbit_num, G, p)
+    return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
+                            code_dist=code_dist,repeat_num=repeat_num)

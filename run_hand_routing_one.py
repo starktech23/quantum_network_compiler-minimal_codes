@@ -91,7 +91,7 @@ def run_one(kwargs):
             routing_result=hand_routing.gen_qec_qft_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,code_dist=code_dist)
         elif(test_program_type=="qaoa"):
             routing_result=hand_routing.gen_qec_qaoa_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,
-                                                                    edges=edges,
+                                                                    # edges=edges,
                                                                     code_dist=code_dist)
         elif(test_program_type=="rca"):
             routing_result=hand_routing.gen_qec_rca_routing_result(rack_num=rack_num,qpu_per_rack=qpu_per_rack,qbit_per_qpu=qbit_per_qpu,code_dist=code_dist,repeat_num=repeat_num)

@@ -1,4 +1,5 @@
 import random
+
 def cp_to_basegates(cp:list[str,int,int,int]):
     _,log_angle,sqbit,eqbit=cp
     return [['CX',sqbit,eqbit]]*2 # cp--> 2cx + ...
@@ -97,6 +98,20 @@ def create_xor_circuit(nqubit):
     return get_xor(sqbit=0,eqbit=nqubit-1)
 
 
-import networkx as nx
-import numpy as np
+def create_qaoa_circuit(nqubit, edges, p=1):
+    gates = []
+    for i in range(nqubit):
+        gates.append(['H', i])
+
+    for _ in range(p):
+        for (i, j) in edges:
+            gates.append(['CX', i, j])
+            gates.append(['Rz', j])
+            gates.append(['CX', i, j])
+
+        for i in range(nqubit):
+            gates.append(['Rx', i])
+
+    return gates
+
 
