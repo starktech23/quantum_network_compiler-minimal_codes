@@ -1,0 +1,13 @@
+{'test_mapper_type': 'baseline', 'test_router_type': 'hand', 'test_scheduler_type': 'our', 'test_program_type': 'qaoa', 'test_conn_G_type': 'clos', 'rack_num': 4, 'qpu_per_rack': 4, 'qbit_per_qpu': 30, 'commqbit_num': 2, 'cache_reserve_size': 2, 'outer_router_edge_weight': 8, 'rack_router_bsm_num': 4, 'cache_size': 5, 'scheduling_reserve_size': 3, 'schedu_depth': 10, 'inter_time': 1, 'switch_time': 10, 'exter_time': 100, 'split_mul': 2, 'look_ahead': True, 'join_map': True, 'split': True, 'prefix': 'check_reserve_test', 'father_dir': 'rawdata_test_scheduler_type_Mon Jan 12 21:53:09 2026', 'seed': 2, 'total_test_num': 1, 'repeat_num': 1, 'auto_retry_length': True, 'retry_length': 50, 'shoot_gap': 200, 'check_CAT_sTP': True, 'check_dTP': False, 'check_split_num': True, 'qec_program': False, 'code_dist': 5}
+routing_result: cross EPR:1064 inter EPR:282
+DAG: cross EPR:1064 inter EPR:282
+Scheduling start
+Scheduling time:94.14493107795715
+rack_num 4 qpu_per_rack 4 qbit_per_qpu 30
+time_schedule 14091 cross_pair 1064 in_pair 282 post_in_pair 260
+cross_wait_time 74026 in_wait_time 54316
+retry_num 4 total_step 14821
+thruput 0.0955219643744234 avg_wait_time 79.91407222914073 avg_retry_overhead 1.0518061173798878
+
+METRICS_JSON:
+{"time_schedule": 14091, "cross_pair": 1064, "in_pair": 282, "post_in_pair": 260, "cross_wait_time": 74026, "in_wait_time": 54316, "retry_num": 4, "total_step": 14821, "throughput": 0.0955219643744234, "cross_EPR_cache_time": null, "inter_EPR_cache_time": null, "distill_pair": null, "schedule_result_list_len": 1866}
