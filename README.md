@@ -1,3 +1,9 @@
+This codebase is subject to CC-BY-4.0 (see **\LICENSE.md**) and updated from Version v1 of the original Zenodo source code at https://zenodo.org/records/15377656.
+
+Credit to authors of SwitchQNet:
+
+Zhang, H. (2025). SwitchQNet: Optimizing Distributed Quantum Computing for Quantum Data Centers with Switch Networks. Zenodo. https://doi.org/10.1145/3695053.3731046
+
 # Requirements
 [networkx](https://networkx.org/),[matplotlib](https://matplotlib.org/)  
 
