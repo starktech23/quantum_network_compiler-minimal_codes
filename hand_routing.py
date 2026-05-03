@@ -316,6 +316,20 @@ def gen_qec_qaoa_routing_result(rack_num,qpu_per_rack,qbit_per_qpu,code_dist, p=
     qpu_num=rack_num*qpu_per_rack
     qbit_num=qpu_num*qbit_per_qpu
     G = generate_regular_graph(qbit_num, 3)
+    # G = generate_random_graph(qbit_num, 0.5)    # update to choice of graph between k-reg, random and A2A
     circ=create_qaoa_circuit(qbit_num, G, p)
     return qec_circ_to_EPR(circ=circ,qbit_num=qbit_num,qbit_per_qpu=qbit_per_qpu,
                             code_dist=code_dist,repeat_num=repeat_num)
+
+
+    # if type='3':
+    #     G = generate_regular_graph(qbit_num, 3)
+    # else
+    #     if type='2':
+    #         G = generate_random_graph(qbit_num, 0.5)
+    #     else
+    #         if type='1':
+    #             G = generate_all_to_all_graph(qbit_num)
+    #         else:
+    #             raise ValueError("Type of Graph G must be between integer values 1, 2 & 3")
+    # G = generate_regular_graph(qbit_num, 3)

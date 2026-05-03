@@ -315,8 +315,14 @@ def calculate_cross_sublist_averages(big_list):
             metric_sums[file_p_key]['count'] += 1
             if instance.dist_retry.get('retry_num', None) is not None: # change!!
                 metric_sums[file_p_key]['retry_num'] = instance.dist_retry['retry_num']
-            if instance.dist_retry.get('total_step', None) is not None: # change!!
-                metric_sums[file_p_key]['retry_time'] = instance.dist_retry['total_step']
+            # if instance.dist_retry.get('total_step', None) is not None: # change!!
+            #     metric_sums[file_p_key]['retry_time'] = instance.dist_retry['total_step']  ### incorrect code, always false condition activates (avg_retry_overhead does not get copied to metric_sums) and defaults to retry overhead 0.00
+            if instance.dic_l4.get('avg_retry_overhead', None) is not None:         # new change!!
+                metric_sums[file_p_key]['avg_retry_overhead'] = instance.dic_l4['avg_retry_overhead']
+            # if instance.dist_retry.get('total_step', None) is not None and instance.dic_l2.get('time_schedule',                                   ##### more robust fix for retry overhead bug
+            #                                                                                    None) is not None:
+            #     metric_sums[file_p_key]['avg_retry_overhead'] = instance.dist_retry['total_step'] / instance.dic_l2[
+            #         'time_schedule']
             if instance.dic_l4.get('total_step', None) is not None: # change!!
                 metric_sums[file_p_key]['avg_retry_overhead'] = instance.dic_l4['avg_retry_overhead']
             if instance.dic_l2.get('cross_pair', None) is not None: # change!!
